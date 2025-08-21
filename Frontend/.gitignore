@@ -1,3 +1,5 @@
+
+REACT_APP_BACKEND_URL=https://ai-code-reviewer-1-w1ms.onrender.com
 # Logs
 logs
 *.log
