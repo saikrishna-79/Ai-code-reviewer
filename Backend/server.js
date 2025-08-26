@@ -10,7 +10,7 @@ app.use(express.json());
 // ✅ Allow both local and deployed frontend
 const allowedOrigins = [
   'http://localhost:5173',               // Local Vite frontend
-  'https://your-frontend.vercel.app'     // Replace with your actual Vercel frontend URL
+  'https://ai-code-reviewer-five-sand.vercel.app/'     // Replace with your actual Vercel frontend URL
 ];
 
 app.use(cors({
@@ -32,9 +32,10 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 const PORT = process.env.PORT || 3001;
 
 // ✅ Health check route
-app.get('/', (req, res) => {
-  res.send('✅ AI Code Reviewer API is running');
+app.get('/ai/get-review', (req, res) => {
+  res.json({ message: "Review works!" });
 });
+
 
 // 📌 Route for AI review
 app.post('/ai/get-review', async (req, res) => {
