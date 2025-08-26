@@ -1,3 +1,4 @@
+// server.js
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -5,7 +6,24 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:5173' }));
+
+// ✅ Allow both local and deployed frontend
+const allowedOrigins = [
+  'http://localhost:5173',               // Local Vite frontend
+  'https://your-frontend.vercel.app'     // Replace with your actual Vercel frontend URL
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 // 🔑 Initialize Gemini
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_KEY);
@@ -13,6 +31,7 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const PORT = process.env.PORT || 3001;
 
+// ✅ Health check route
 app.get('/', (req, res) => {
   res.send('✅ AI Code Reviewer API is running');
 });
