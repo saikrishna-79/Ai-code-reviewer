@@ -5,8 +5,13 @@
   "scripts": {
   "start": "node server.js",
   "dev": "nodemon server.js"
+<<<<<<< HEAD
 },
 
+=======
+}
+,
+>>>>>>> 2aa0799c21c974ff319114032c447b836c8572ad
   "keywords": [],
   "author": "",
   "license": "ISC",

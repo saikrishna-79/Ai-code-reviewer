@@ -8,22 +8,8 @@ const app = express();
 app.use(express.json());
 
 // ✅ Allow both local and deployed frontend
-const allowedOrigins = [
-  'http://localhost:5173',               // Local Vite frontend
-  'https://ai-code-reviewer-five-sand.vercel.app/'     // Replace with your actual Vercel frontend URL
-];
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ["GET", "POST"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+app.use(cors());
 
 // 🔑 Initialize Gemini
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_KEY);
