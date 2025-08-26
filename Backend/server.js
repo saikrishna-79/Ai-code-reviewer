@@ -18,8 +18,8 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 const PORT = process.env.PORT || 3001;
 
 // ✅ Health check route
-app.get('/ai/get-review', (req, res) => {
-  res.json({ message: "Review works!" });
+app.get('/', (req, res) => {
+  res.send({ message: "Review works!" });
 });
 
 
