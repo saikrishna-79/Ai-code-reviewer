@@ -19,13 +19,14 @@ function App() {
     Prism.highlightAll();
   }, []);
 
- async function ReviewCode() {
+async function ReviewCode() {
   try {
     const response = await axios.post(
       `${import.meta.env.VITE_API_BASE_URL}/ai/get-review`,
       { code }
     );
-    setReview(response.data);
+    // Ensure it uses "response.data.review"
+    setReview(response.data.review);
   } catch (error) {
     console.error("Error fetching review:", error);
   }

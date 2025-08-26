@@ -1,11 +1,23 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
-
+// Initialize Gemini with API Key
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_KEY);
 
+// Choose the Gemini model (flash = faster/cheaper, pro = better reasoning)
 const model = genAI.getGenerativeModel({
-  model: "gemini-2.0-flash",
-  systemInstruction: `
+  model: "gemini-1.5-flash",
+});
+
+// Function to generate content
+async function generateContent(prompt) {
+  try {
+    const result = await model.generateContent({
+      contents: [
+        {
+          role: "system",
+          parts: [
+            {
+              text: `
 🛠️ Role & Responsibilities
 
 You are an expert code reviewer with 7+ years of development experience. Your role is to analyze, review, and improve code written by developers. You focus on:
@@ -62,12 +74,28 @@ async function fetchData() {
     return null;
   }
 }
-`,
-});
+              `,
+            },
+          ],
+        },
+        { role: "user", parts: [{ text: prompt }] },
+      ],
+    });
 
-async function generateContent(prompt) {
-  const result = await model.generateContent(prompt);
-  return result.response.text();
+    return result.response.text();
+  } catch (err) {
+    console.error("Gemini API Error:", err);
+    return "⚠️ Failed to generate response.";
+  }
 }
 
+// Export function for use in your project
 module.exports = generateContent;
+
+// If you want to test directly with: node filename.js
+if (require.main === module) {
+  (async () => {
+    const review = await generateContent("Review this JavaScript function:\nfunction add(a,b){return a+b}");
+    console.log("AI Review:\n", review);
+  })();
+}
