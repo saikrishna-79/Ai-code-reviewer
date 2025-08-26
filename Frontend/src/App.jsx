@@ -21,11 +21,11 @@ function App() {
 
 async function ReviewCode() {
   try {
-   const response = await axios.post(
-  `${import.meta.env.VITE_API_URL}ai/get-review`,
-  { code }
-);
-    console.log("API Base URL:", import.meta.env.VITE_API_BASE_URL);
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL}/ai/get-review`, // make sure backend route matches
+      { code }
+    );
+    console.log("API Base URL:", import.meta.env.VITE_API_URL);
     setReview(response.data.review);
   } catch (error) {
     console.error("Error fetching review:", error);
