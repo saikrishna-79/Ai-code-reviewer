@@ -6,7 +6,7 @@ import Editor from "react-simple-code-editor";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
-import "highlight.js/styles/github-dark.css"; 
+import "highlight.js/styles/github-dark.css";
 import "./App.css";
 
 function App() {
@@ -14,25 +14,27 @@ function App() {
   return 1 + 1;
 }`);
   const [review, setReview] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     Prism.highlightAll();
   }, []);
 
-async function ReviewCode() {
-  try {
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/ai/get-review`, // make sure backend route matches
-      { code }
-    );
-    console.log("API Base URL:", import.meta.env.VITE_API_URL);
-    setReview(response.data.review);
-  } catch (error) {
-    console.error("Error fetching review:", error);
+  async function ReviewCode() {
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/ai/get-review`,
+        { code }
+      );
+      console.log("API Base URL:", import.meta.env.VITE_API_URL);
+      setReview(response.data.review);
+    } catch (error) {
+      console.error("Error fetching review:", error);
+    } finally {
+      setLoading(false);
+    }
   }
-}
-
-
 
   return (
     <>
@@ -56,12 +58,28 @@ async function ReviewCode() {
               }}
             />
           </div>
-          <div onClick={ReviewCode} className="review">Review</div>
+
+          <button
+            onClick={ReviewCode}
+            className="review"
+            disabled={loading}
+            aria-busy={loading}
+          >
+            {loading ? "Reviewing…" : "Review"}
+          </button>
         </div>
+
         <div className="right">
-          <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
-            {review}
-          </ReactMarkdown>
+          {loading && !review ? (
+            <div className="loading">
+              <span className="spinner" />
+              Reviewing your code…
+            </div>
+          ) : (
+            <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+              {review}
+            </ReactMarkdown>
+          )}
         </div>
       </main>
     </>
