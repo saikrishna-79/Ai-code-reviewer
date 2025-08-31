@@ -1,12 +1,102 @@
-# React + Vite
+# 🤖 AI Code Reviewer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An AI-powered code review tool that helps developers quickly analyze their code and receive instant suggestions for improvements.  
+Built with a **React (JSX) frontend** and an **Express.js backend** integrated with **Google Generative AI API**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
+- AI-powered code review for quick analysis and feedback
+- Simple web interface – paste code, submit, and get results
+- Lightweight setup – no database required
+- Separate frontend and backend for clarity
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🏗️ Tech Stack
+
+### Frontend
+- React.js (JSX)
+- Vite
+- Tailwind CSS
+
+### Backend
+- Node.js
+- Express.js
+- Google Generative AI API
+
+### Deployment
+- Vercel → Frontend
+- Render → Backend
+
+---
+
+## 📂 Project Structure
+
+```
+AICODE REVIEWER/
+│
+├── Backend/                         # Backend with Express.js + AI API
+│   ├── src/
+│   │   ├── controllers/
+│   │   │   └── ai.controller.js     # Handles request/response logic
+│   │   ├── routes/
+│   │   │   └── ai.routes.js         # Defines API endpoints
+│   │   ├── services/
+│   │   │   └── ai.service.js        # AI integration service
+│   │   └── app.js                   # Express app configuration
+│   ├── .env                         # Backend environment variables
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── server.js                    # Server entry point
+│   ├── vercel.json                  # Deployment config for Vercel
+│   └── .gitignore
+│
+├── Frontend/                        # Frontend with React + Vite
+│   ├── public/                      # Static files
+│   ├── src/
+│   │   ├── App.jsx                  # Root React component
+│   │   └── App.css                  # Styles for App.jsx
+│   ├── dist/                        # Build output
+│   ├── .env
+│   ├── .env.production
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── vite.config.js
+│   ├── eslint.config.js
+│   └── .gitignore
+│
+└── README.md                        # Documentation
+```
+
+---
+
+## ⚙️ Setup & Installation
+
+### Backend
+```bash
+cd Backend
+npm install
+```
+Create a `.env` file in the `Backend/` folder and add:
+```
+GOOGLE_API_KEY=your_api_key
+```
+Run the backend:
+```bash
+npm start
+```
+By default: [http://localhost:5000](http://localhost:5000)
+
+### Frontend
+```bash
+cd Frontend
+npm install
+npm run dev
+```
+By default: [http://localhost:5173](http://localhost:5173)
+
+---
+
+## 📜 License
+This project is licensed under the MIT License.
